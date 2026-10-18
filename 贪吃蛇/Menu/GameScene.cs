@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 贪吃蛇.GameObject.Block;
-using 贪吃蛇.GameObject.Entirety;
+using 贪吃蛇.GameObjectSpace.Block;
+using 贪吃蛇.GameObjectSpace.Entirety;
 using 贪吃蛇.Main;
+using 贪吃蛇.Toolkit;
 
 namespace 贪吃蛇.Menu
 {
@@ -23,6 +24,7 @@ namespace 贪吃蛇.Menu
             map = new Map();
             snake = new Snake(Game.width/2,Game.height/2);
             food = new Food(snake);
+            RenderOnScreen.Instance.ResetResolution();
         }
 
         public void Update()
@@ -39,9 +41,11 @@ namespace 贪吃蛇.Menu
                 }
                 snake.CheckEatFood(food);
 
-                map.Draw();
-                snake.Draw();
-                food.Draw();
+                map.ToRenderer();
+                snake.ToRenderer();
+                food.ToRenderer();
+
+                RenderOnScreen.Instance.Draw();
             }
 
             Thread.Sleep(10);

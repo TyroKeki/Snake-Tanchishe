@@ -1,7 +1,8 @@
-﻿using 贪吃蛇.GameObject.Entirety;
+﻿using 贪吃蛇.GameObjectSpace.Entirety;
 using 贪吃蛇.Main;
+using 贪吃蛇.Toolkit;
 
-namespace 贪吃蛇.GameObject.Block
+namespace 贪吃蛇.GameObjectSpace.Block
 {
     internal class Food : GameObject
     {
@@ -14,11 +15,20 @@ namespace 贪吃蛇.GameObject.Block
             RandomPos(snake);
         }
 
+        /// <summary>
+        /// 注意：这是一个 block
+        /// 建议传入 RenderOnScreen
+        /// </summary>
         public override void Draw()
         {
             Console.SetCursorPosition(pos.x, pos.y);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("🌽");
+        }
+
+        public void ToRenderer()
+        {
+            RenderOnScreen.Instance.PassInfo(this, pos.x, pos.y);
         }
         // 随机位置的行为 行为和蛇相关 不好写
 

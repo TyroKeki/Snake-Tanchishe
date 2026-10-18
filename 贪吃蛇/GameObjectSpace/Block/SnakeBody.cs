@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 贪吃蛇.GameObject.Block
+namespace 贪吃蛇.GameObjectSpace.Block
 {
     enum E_SnakeBody_Type
     {
@@ -12,10 +12,9 @@ namespace 贪吃蛇.GameObject.Block
         body,
     }
 
-    internal class SnakeBody : GameObject, ISnakeComponent
+    internal class SnakeBody : SnakeComponent
     {
         E_SnakeBody_Type type;
-        public Position Pos { get => pos; set => pos = value; }
 
         public SnakeBody(E_SnakeBody_Type type,int x,int y)
         {

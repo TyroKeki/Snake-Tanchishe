@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 贪吃蛇.GameObject.Block;
+using 贪吃蛇.GameObjectSpace.Block;
 using 贪吃蛇.Main;
+using 贪吃蛇.Toolkit;
 
-namespace 贪吃蛇.GameObject.Entirety
+namespace 贪吃蛇.GameObjectSpace.Entirety
 {
     internal class Map : IDraw
     {
@@ -29,6 +30,10 @@ namespace 贪吃蛇.GameObject.Entirety
             }
         }
 
+
+        /// <summary>
+        /// 建议将信息传递到RenderOnScreen，不建议直接渲染
+        /// </summary>
         public void Draw()
         {
             for (int col = 0; col < grids.GetLength(0); col += 2)
@@ -36,6 +41,23 @@ namespace 贪吃蛇.GameObject.Entirety
                 for (int row = 0; row < grids.GetLength(1); row += 1)
                 {
                     grids[col, row]?.Draw();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 传给渲染端
+        /// </summary>
+        public void ToRenderer()
+        {
+            for (int col = 0; col < grids.GetLength(0); col += 2)
+            {
+                for (int row = 0; row < grids.GetLength(1); row += 1)
+                {
+                    if (grids[col, row] != null)
+                    {
+                        RenderOnScreen.Instance.PassInfo(grids[col,row],col,row);
+                    }
                 }
             }
         }

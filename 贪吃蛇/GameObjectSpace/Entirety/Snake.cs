@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 贪吃蛇.GameObject.Block;
+using 贪吃蛇.GameObjectSpace.Block;
+using 贪吃蛇.Toolkit;
 
-namespace 贪吃蛇.GameObject.Entirety
+namespace 贪吃蛇.GameObjectSpace.Entirety
 {
     enum E_MoveDir
     {
@@ -13,12 +14,12 @@ namespace 贪吃蛇.GameObject.Entirety
     }
     internal class Snake : IDraw
     {
-        List<ISnakeComponent> bodies;
+        List<SnakeComponent> bodies;
         E_MoveDir dir;
 
         public Snake(int x, int y)
         {
-            bodies = new List<ISnakeComponent>(32);
+            bodies = new List<SnakeComponent>(32);
             SnakeBody head = new SnakeBody(E_SnakeBody_Type.head, x, y);
             bodies.Add(head);
             EmptySnakeTail cleaner = new EmptySnakeTail(x + 2, y);
@@ -43,11 +44,22 @@ namespace 贪吃蛇.GameObject.Entirety
             }
         }
 
+        /// <summary>
+        /// 建议传入RenderOnScreen
+        /// </summary>
         public void Draw()
         {
             for (int i = bodies.Count-1; i>=0; i--)
             {
                 bodies[i].Draw();
+            }
+        }
+
+        public void ToRenderer()
+        {
+            for (int i = bodies.Count - 1; i >= 0; i--)
+            {
+                RenderOnScreen.Instance.PassInfo(bodies[i], bodies[i].Pos.x, bodies[i].Pos.y);
             }
         }
 

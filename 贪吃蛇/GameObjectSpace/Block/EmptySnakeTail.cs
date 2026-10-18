@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 贪吃蛇.GameObject.Block
+namespace 贪吃蛇.GameObjectSpace.Block
 {
-    internal class Wall : GameObject
+    internal class EmptySnakeTail : SnakeComponent
     {
-        public Wall(int x,int y)
+
+        public EmptySnakeTail(int x,int y)
         {
             pos = new Position(x,y);
         }
+
         public override void Draw()
         {
             Console.SetCursorPosition(pos.x, pos.y);
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("■");
+            Console.Write("  ");
         }
     }
 }
