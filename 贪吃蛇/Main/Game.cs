@@ -14,20 +14,23 @@ namespace 贪吃蛇.Main
     class Game
     {
         // 游戏窗口宽高
-        public static int width = 120;
-        public static int height = 30;
+        public static int mapWidth;
+        public static int mapHeight;
+        // 新增的状态栏独立宽高
+        public static int windowWidth;
+        public static int windowHeight;
         // 当前选中的场景
         public static ISceneUpdate nowScene;
         // 全局计时
-        public static Stopwatch sw = Stopwatch.StartNew();
+        public static Stopwatch timeFromInit = Stopwatch.StartNew();
 
 
         private void ConsoleInit()
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.CursorVisible = false;
-            Console.SetWindowSize(width, height);
-            Console.SetBufferSize(width, height);
+            Console.SetWindowSize(windowWidth, windowHeight);
+            Console.SetBufferSize(windowWidth, windowHeight);
             ChangeScene(E_SceneType.Start);
         }
 
@@ -39,8 +42,10 @@ namespace 贪吃蛇.Main
         // 使用参数实例化
         public Game(int w,int h)
         {
-            width = w;
-            height = h;
+            mapWidth = w;
+            mapHeight = h;
+            windowWidth = w + 16;
+            windowHeight = h;
             ConsoleInit();
         }
 
@@ -48,7 +53,8 @@ namespace 贪吃蛇.Main
         {
             while (true)
             {
-                nowScene?.Update();
+                // 似乎可以去掉?空引用判断
+                nowScene.Update();
             }
         }
 

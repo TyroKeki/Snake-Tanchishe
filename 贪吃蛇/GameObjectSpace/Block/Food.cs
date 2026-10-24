@@ -17,7 +17,7 @@ namespace 贪吃蛇.GameObjectSpace.Block
 
         /// <summary>
         /// 注意：这是一个 block
-        /// 建议传入 RenderOnScreen
+        /// 建议传入 MapRenderer
         /// </summary>
         public override void Draw()
         {
@@ -28,7 +28,7 @@ namespace 贪吃蛇.GameObjectSpace.Block
 
         public void ToRenderer()
         {
-            RenderOnScreen.Instance.PassInfo(this, pos.x, pos.y);
+            MapRenderer.Instance.PassInfo(this, pos.x, pos.y);
         }
         // 随机位置的行为 行为和蛇相关 不好写
 
@@ -37,8 +37,8 @@ namespace 贪吃蛇.GameObjectSpace.Block
             Position tmpPos;
             do
             {
-                int x = rand.Next(1, Game.width / 2 - 1) * 2;
-                int y = rand.Next(1, Game.height - 1);
+                int x = rand.Next(1, Game.mapWidth / 2 - 1) * 2;
+                int y = rand.Next(1, Game.mapHeight - 1);
                 tmpPos = new Position(x, y);
             } while (snake.CheckPositionOccupied(tmpPos));
 

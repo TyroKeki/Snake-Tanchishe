@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using 贪吃蛇.GameObjectSpace;
+﻿using 贪吃蛇.GameObjectSpace;
 using 贪吃蛇.Main;
 
 namespace 贪吃蛇.Toolkit
 {
-    internal class RenderOnScreen : IDraw
+    internal class MapRenderer : IDraw
     {
-        private static RenderOnScreen instance = new RenderOnScreen();
-        public static RenderOnScreen Instance => instance;
-        private RenderOnScreen() { }
+        private static MapRenderer instance = new MapRenderer();
+        public static MapRenderer Instance => instance;
+        private MapRenderer() { }
 
-        public GameObject[,] screenPos;
+        private GameObject[,] screenPos;
         int width;
         int height;
+        /// <summary>
+        /// 通常是80 * 20大小
+        /// </summary>
         public void ResetResolution()
         {
-            width = Game.width;
-            height = Game.height;
+            width = Game.mapWidth;
+            height = Game.mapHeight;
             screenPos = new GameObject[width, height];
         }
 
@@ -37,6 +35,9 @@ namespace 贪吃蛇.Toolkit
 
         public void PassInfo(GameObject obj,int x, int y)
         {
+            if (x < 0 || x >= width || y < 0 || y >= height)
+                throw new ArgumentOutOfRangeException(
+                    $"PassInfo 越界: ({x},{y})，地图尺寸 {width}×{height}");
             screenPos[x, y] = obj;
         }
     }

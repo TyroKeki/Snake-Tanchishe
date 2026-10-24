@@ -21,13 +21,13 @@ namespace 贪吃蛇.Menu
             // 开始和结束场景的游戏逻辑
             Console.ForegroundColor = ConsoleColor.White;
             // 显示标题
-            Console.SetCursorPosition(Game.width / 2 - titleText.Length, 5);
+            Console.SetCursorPosition(Game.windowWidth / 2 - titleText.Length, 5);
             Console.Write(titleText);
             // 显示下方的选项
-            Console.SetCursorPosition(Game.width / 2 - selectionOneString.Length, 10);
+            Console.SetCursorPosition(Game.windowWidth / 2 - selectionOneString.Length, 10);
             Console.ForegroundColor = nowSelIndex == 0 ? ConsoleColor.Red : ConsoleColor.White;
             Console.Write(selectionOneString);
-            Console.SetCursorPosition(Game.width / 2 - selectionTwoString.Length, 13);
+            Console.SetCursorPosition(Game.windowWidth / 2 - selectionTwoString.Length, 13);
             Console.ForegroundColor = nowSelIndex == 1 ? ConsoleColor.Red : ConsoleColor.White;
             Console.Write(selectionTwoString);
             // 检测输入

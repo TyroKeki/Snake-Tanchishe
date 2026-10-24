@@ -59,7 +59,7 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
         {
             for (int i = bodies.Count - 1; i >= 0; i--)
             {
-                RenderOnScreen.Instance.PassInfo(bodies[i], bodies[i].Pos.x, bodies[i].Pos.y);
+                MapRenderer.Instance.PassInfo(bodies[i], bodies[i].Pos.x, bodies[i].Pos.y);
             }
         }
 
@@ -90,6 +90,8 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
             }
             bodies[0].Pos = head;
         }
+
+        // 仅用于内部方法ChangeDir的合法性判断
         private bool CanChangeDir(E_MoveDir newDir)
         {
             if (newDir == this.dir)
@@ -115,10 +117,15 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
             }
         }
 
-        public bool CheckIsEnd()
+        /// <summary>
+        /// 蛇身碰撞和地图碰撞失败检测耦合，暂不打算修改
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public bool CheckIsEnd(GameObject[,] nowMap)
         {
             Position deltaPos = bodies[0].Pos;
-            if (Map.grids[deltaPos.x, deltaPos.y] is Wall)
+            if (nowMap[deltaPos.x, deltaPos.y] is Wall)
             {
                 return true;
             }
