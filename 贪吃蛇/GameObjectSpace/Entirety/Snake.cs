@@ -4,18 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using 贪吃蛇.GameObjectSpace.Block;
+using 贪吃蛇.GameObjectSpace.World;
+using 贪吃蛇.Main;
 using 贪吃蛇.Toolkit;
 
 namespace 贪吃蛇.GameObjectSpace.Entirety
 {
-    enum E_MoveDir
-    {
-        up, down, left, right
-    }
+
     internal class Snake : IDraw
     {
         List<SnakeComponent> bodies;
-        E_MoveDir dir;
+        E_Dir dir;
+        public Position NowPos => bodies[0].Pos;
+
 
         public Snake(int x, int y)
         {
@@ -26,7 +27,7 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
             bodies.Add(cleaner);
 
             GetBodiesInARow(head, 5);
-            dir = E_MoveDir.left;
+            dir = E_Dir.left;
         }
 
         public void GetBody(int x, int y)
@@ -73,16 +74,16 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
             Position head = bodies[0].Pos;
             switch (dir)
             {
-                case E_MoveDir.up:
+                case E_Dir.up:
                     head.y--;
                     break;
-                case E_MoveDir.down:
+                case E_Dir.down:
                     head.y++;
                     break;
-                case E_MoveDir.left:
+                case E_Dir.left:
                     head.x -= 2;
                     break;
-                case E_MoveDir.right:
+                case E_Dir.right:
                     head.x += 2;
                     break;
                 default:
@@ -92,24 +93,24 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
         }
 
         // 仅用于内部方法ChangeDir的合法性判断
-        private bool CanChangeDir(E_MoveDir newDir)
+        private bool CanChangeDir(E_Dir newDir)
         {
             if (newDir == this.dir)
             {
                 return false;
             }
             else if (bodies.Count > 1 &&
-                (this.dir == E_MoveDir.left && newDir == E_MoveDir.right ||
-                 this.dir == E_MoveDir.right && newDir == E_MoveDir.left ||
-                 this.dir == E_MoveDir.up && newDir == E_MoveDir.down ||
-                 this.dir == E_MoveDir.down && newDir == E_MoveDir.up))
+                (this.dir == E_Dir.left && newDir == E_Dir.right ||
+                 this.dir == E_Dir.right && newDir == E_Dir.left ||
+                 this.dir == E_Dir.up && newDir == E_Dir.down ||
+                 this.dir == E_Dir.down && newDir == E_Dir.up))
             {
                 return false;
             }
             return true;
         }
 
-        public void ChangeDir(E_MoveDir newDir)
+        public void ChangeDir(E_Dir newDir)
         {
             if (CanChangeDir(newDir))
             {
@@ -125,6 +126,14 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
         public bool CheckIsEnd(GameObject[,] nowMap)
         {
             Position deltaPos = bodies[0].Pos;
+            //if (!Collections.InBounds(deltaPos.x, deltaPos.y, nowMap.GetLength(0), nowMap.GetLength(1)))
+            //{
+            //    return false;
+            //}
+
+            {
+
+            }
             if (nowMap[deltaPos.x, deltaPos.y] is Wall)
             {
                 return true;
@@ -162,5 +171,50 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
             }
         }
 
+        /// <summary>
+        /// 传送方法，未来可以是扩展方法
+        /// </summary>
+        /// <param name="snakeObj">指定修改的蛇部件</param>
+        /// <param name="x">指定位置x</param>
+        /// <param name="y">指定位置y</param>
+        public static void TeleportTo(SnakeComponent snakeObj,int x,int y)
+        {
+            Position snakeObjPos = snakeObj.pos;
+            snakeObjPos.x = x;
+            snakeObjPos.y = y;
+            snakeObj.pos = snakeObjPos;
+        }
+
+        /// <summary>
+        /// 这个是初版的边界传送方法，不确定会不会改
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void EnterNewMapMove()
+        {
+            SnakeComponent head = bodies[0];
+            Position headCopyPos = head.pos;
+            if(WorldMap.isAtCornor(headCopyPos.x, headCopyPos.y, out E_Dir? toward)){
+                switch (toward)
+                {
+                    case E_Dir.up:
+                        headCopyPos.y = Game.mapHeight - 1;
+                        break;
+                    case E_Dir.down:
+                        headCopyPos.y = 0;
+                        break;
+                    case E_Dir.left:
+                        headCopyPos.x = Game.mapWidth - 2;
+                        break;
+                    case E_Dir.right:
+                        headCopyPos.x = 0;
+                        break;
+                    default:
+                        throw new InvalidOperationException(
+                            $"似乎E_Dir没有赋值");
+                }
+                TeleportTo(head, headCopyPos.x, headCopyPos.y);
+            }
+        }
     }
 }

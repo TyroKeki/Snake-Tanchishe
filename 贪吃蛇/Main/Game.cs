@@ -53,6 +53,7 @@ namespace 贪吃蛇.Main
         {
             while (true)
             {
+                Thread.Sleep(10);
                 // 似乎可以去掉?空引用判断
                 nowScene.Update();
             }
