@@ -1,8 +1,8 @@
-﻿using 贪吃蛇.GameObjectSpace.Entirety;
+﻿using 贪吃蛇.GameObjectNamespace.Entirety;
 using 贪吃蛇.Main;
 using 贪吃蛇.Toolkit;
 
-namespace 贪吃蛇.GameObjectSpace.Block
+namespace 贪吃蛇.GameObjectNamespace.Block
 {
     internal class Food : GameObject
     {
@@ -34,12 +34,12 @@ namespace 贪吃蛇.GameObjectSpace.Block
 
         public void RandomPos(Snake snake)
         {
-            Position tmpPos;
+            Vector2 tmpPos;
             do
             {
                 int x = rand.Next(1, Game.mapWidth / 2 - 1) * 2;
                 int y = rand.Next(1, Game.mapHeight - 1);
-                tmpPos = new Position(x, y);
+                tmpPos = new Vector2(x, y);
             } while (snake.CheckPositionOccupied(tmpPos));
 
             pos = tmpPos;

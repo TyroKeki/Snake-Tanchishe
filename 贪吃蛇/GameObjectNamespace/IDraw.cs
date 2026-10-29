@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 贪吃蛇.GameObjectSpace
+namespace 贪吃蛇.GameObjectNamespace
 {
     internal interface IDraw
     {

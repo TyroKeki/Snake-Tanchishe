@@ -5,19 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using 贪吃蛇.Toolkit;
 
-namespace 贪吃蛇.GameObjectSpace.World
+namespace 贪吃蛇.GameObjectNamespace.World
 {
-    internal class MapToRenderer
+    internal static class MapToRenderer
     {
-        private static MapToRenderer instance = new MapToRenderer();
-        public static MapToRenderer Instance => instance;
-        private MapToRenderer() { }
-
 
         /// <summary>
         /// 传给渲染端
         /// </summary>
-        public void ToRenderer(GameObject[,] nowMap)
+        public static void ToRenderer(GameObject[,] nowMap)
         {
             for (int col = 0; col < nowMap.GetLength(0); col += 2)
             {

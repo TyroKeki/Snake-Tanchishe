@@ -3,42 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 贪吃蛇.GameObjectSpace.Block;
-using 贪吃蛇.GameObjectSpace.World;
+using 贪吃蛇.Data;
+using 贪吃蛇.GameObjectNamespace.Block;
+using 贪吃蛇.GameObjectNamespace.World;
 using 贪吃蛇.Main;
 using 贪吃蛇.Toolkit;
 
-namespace 贪吃蛇.GameObjectSpace.Entirety
+namespace 贪吃蛇.GameObjectNamespace.Entirety
 {
 
     internal class Snake : IDraw
     {
         List<SnakeComponent> bodies;
         E_Dir dir;
-        public Position NowPos => bodies[0].Pos;
-
+        public Vector2 NowPos => bodies[0].Pos;
+        public IReadOnlyList<SnakeComponent> Bodies => bodies;
 
         public Snake(int x, int y)
         {
             bodies = new List<SnakeComponent>(32);
             SnakeBody head = new SnakeBody(E_SnakeBody_Type.head, x, y);
             bodies.Add(head);
-            EmptySnakeTail cleaner = new EmptySnakeTail(x + 2, y);
-            bodies.Add(cleaner);
 
             GetBodiesInARow(head, 5);
             dir = E_Dir.left;
         }
 
-        public void GetBody(int x, int y)
+        private void GetBody(int x, int y)
         {
             SnakeBody body = new SnakeBody(E_SnakeBody_Type.body, x, y);
-            bodies.Insert(bodies.Count - 1, body);
+            bodies.Insert(bodies.Count, body);
         }
 
         public void GetBodiesInARow(SnakeBody head, int n)
         {
-            Position pos = head.pos;
+            Vector2 pos = head.pos;
             for (int i = 1; i <= n; i++)
             {
                 GetBody(pos.x + i * 2, pos.y);
@@ -71,7 +70,7 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
                 bodies[i].Pos = bodies[i - 1].Pos;
             }
 
-            Position head = bodies[0].Pos;
+            Vector2 head = bodies[0].Pos;
             switch (dir)
             {
                 case E_Dir.up:
@@ -93,6 +92,7 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
         }
 
         // 仅用于内部方法ChangeDir的合法性判断
+        // 因为约束来自自己，所以放在自己的类里合理
         private bool CanChangeDir(E_Dir newDir)
         {
             if (newDir == this.dir)
@@ -118,39 +118,7 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
             }
         }
 
-        /// <summary>
-        /// 蛇身碰撞和地图碰撞失败检测耦合，暂不打算修改
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns></returns>
-        public bool CheckIsEnd(GameObject[,] nowMap)
-        {
-            Position deltaPos = bodies[0].Pos;
-            //if (!Collections.InBounds(deltaPos.x, deltaPos.y, nowMap.GetLength(0), nowMap.GetLength(1)))
-            //{
-            //    return false;
-            //}
-
-            {
-
-            }
-            if (nowMap[deltaPos.x, deltaPos.y] is Wall)
-            {
-                return true;
-            }
-
-            for (int i = 1; i < bodies.Count; i++)
-            {
-                if (bodies[i].Pos == deltaPos)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool CheckPositionOccupied(Position p)
+        public bool CheckPositionOccupied(Vector2 p)
         {
             for(int i = 0;i< bodies.Count; i++)
             {
@@ -162,59 +130,30 @@ namespace 贪吃蛇.GameObjectSpace.Entirety
             return false;
         }
 
-        public void CheckEatFood(Food food)
+        public void CheckEatFood(Food food, PlayerData playerData)
         {
             if (bodies[0].Pos == food.pos)
             {
                 food.RandomPos(this);
                 GetBody(bodies[bodies.Count - 1].Pos.x, bodies[bodies.Count - 1].Pos.y);
+                playerData.AddScore(1);
             }
         }
 
-        /// <summary>
-        /// 传送方法，未来可以是扩展方法
-        /// </summary>
-        /// <param name="snakeObj">指定修改的蛇部件</param>
-        /// <param name="x">指定位置x</param>
-        /// <param name="y">指定位置y</param>
-        public static void TeleportTo(SnakeComponent snakeObj,int x,int y)
-        {
-            Position snakeObjPos = snakeObj.pos;
-            snakeObjPos.x = x;
-            snakeObjPos.y = y;
-            snakeObj.pos = snakeObjPos;
-        }
 
-        /// <summary>
-        /// 这个是初版的边界传送方法，不确定会不会改
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public void EnterNewMapMove()
+        public void TeleportHeadTo(int x,int y)
         {
             SnakeComponent head = bodies[0];
-            Position headCopyPos = head.pos;
-            if(WorldMap.isAtCornor(headCopyPos.x, headCopyPos.y, out E_Dir? toward)){
-                switch (toward)
-                {
-                    case E_Dir.up:
-                        headCopyPos.y = Game.mapHeight - 1;
-                        break;
-                    case E_Dir.down:
-                        headCopyPos.y = 0;
-                        break;
-                    case E_Dir.left:
-                        headCopyPos.x = Game.mapWidth - 2;
-                        break;
-                    case E_Dir.right:
-                        headCopyPos.x = 0;
-                        break;
-                    default:
-                        throw new InvalidOperationException(
-                            $"似乎E_Dir没有赋值");
-                }
-                TeleportTo(head, headCopyPos.x, headCopyPos.y);
+            head.pos = new Vector2(x,y);
+        }
+
+        public void TeleportAllTo(int x,int y)
+        {
+            foreach (SnakeComponent body in bodies)
+            {
+                body.pos = new Vector2(x, y);
             }
         }
+
     }
 }

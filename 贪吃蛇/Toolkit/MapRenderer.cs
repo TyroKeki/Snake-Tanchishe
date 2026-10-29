@@ -1,4 +1,5 @@
-﻿using 贪吃蛇.GameObjectSpace;
+﻿using System;
+using 贪吃蛇.GameObjectNamespace;
 using 贪吃蛇.Main;
 
 namespace 贪吃蛇.Toolkit
@@ -28,9 +29,17 @@ namespace 贪吃蛇.Toolkit
             {
                 for (int row = 0; row < screenPos.GetLength(1); row += 1)
                 {
-                    screenPos[col, row]?.Draw();
+                    GameObject obj = screenPos[col, row];
+                    if(obj == null)
+                    {
+                        Console.SetCursorPosition(col, row);
+                        Console.Write("  ");
+                        continue;
+                    }
+                    obj.Draw();
                 }
             }
+            Array.Clear(screenPos, 0, screenPos.Length);
         }
 
         public void PassInfo(GameObject obj,int x, int y)

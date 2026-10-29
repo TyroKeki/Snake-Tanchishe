@@ -4,11 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 贪吃蛇.GameObjectSpace.Block;
-using 贪吃蛇.GameObjectSpace.Entirety;
-using 贪吃蛇.GameObjectSpace.World;
+using 贪吃蛇.Data;
+using 贪吃蛇.GameObjectNamespace.Block;
+using 贪吃蛇.GameObjectNamespace.Entirety;
+using 贪吃蛇.GameObjectNamespace.World;
+using 贪吃蛇.GameObjectNamespace.World.WorldComponents;
 using 贪吃蛇.Main;
 using 贪吃蛇.Toolkit;
+using 贪吃蛇.UI;
 
 namespace 贪吃蛇.Menu
 {
@@ -16,13 +19,14 @@ namespace 贪吃蛇.Menu
     {
         // 这个是创建实例，用于持有当前地图指针并推送渲染
         WorldMap worldMap;
-
         Snake snake;
         Food food;
         // 时间
         Stopwatch roundTime = Stopwatch.StartNew();
         long nowTime;
         long lastTime;
+        // 数据存储
+        PlayerData playerData;
 
         public GameScene()
         {
@@ -34,32 +38,39 @@ namespace 贪吃蛇.Menu
             // 时间
             nowTime = roundTime.ElapsedMilliseconds;
             lastTime = roundTime.ElapsedMilliseconds;
+            // 数据
+            playerData = new PlayerData();
         }
 
         private void LogicUpdate()
         {
             snake.Move();
-            snake.CheckEatFood(food);
-            worldMap.CheckChangeMap(snake);
+            snake.CheckEatFood(food, playerData);
 
-            if (snake.CheckIsEnd(worldMap.NowMap))
+            if (worldMap.CheckIsEnd(worldMap.NowMap, snake))
             {
                 Game.ChangeScene(E_SceneType.End);
             }
+            // 需要放在CheckIsEnd下，非常隐式，未来要改
+            worldMap.CheckEnterNewMap(snake);
         }
 
         private void LateUpdate()
         {
-            TimeUI.Instance.FetchTime(roundTime.Elapsed);
-
-            MapToRenderer.Instance.ToRenderer(worldMap.NowMap);
+            MapToRenderer.ToRenderer(worldMap.NowMap);
             snake.ToRenderer();
             food.ToRenderer();
+
+            TimeUI.Instance.FetchTime(roundTime.Elapsed);
+            WorldPosUI.Instance.FetchWorldPos(worldMap.WorldX, worldMap.WorldY);
+            ScoreUI.Instance.FetchScore(playerData.Score);
         }
         private void Render()
         {
             MapRenderer.Instance.Draw();
             TimeUI.Instance.Draw();
+            ScoreUI.Instance.Draw();
+            WorldPosUI.Instance.Draw();
         }
 
         public void Update()

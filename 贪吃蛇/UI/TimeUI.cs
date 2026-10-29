@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 贪吃蛇.GameObjectSpace;
+using 贪吃蛇.GameObjectNamespace;
 using 贪吃蛇.Main;
 
-namespace 贪吃蛇.Toolkit
+namespace 贪吃蛇.UI
 {
     /// <summary>
     /// 只负责UI，逻辑在Game里！
     /// </summary>
-    internal class TimeUI : IDraw
+    internal class TimeUI : BaseUI<TimeUI>,IDraw
     {
-        private static TimeUI instance = new TimeUI();
-        public static TimeUI Instance => instance;
-        private TimeUI() { }
+        // 大小指定
+        private UIFrame frame = new UIFrame(Game.mapWidth + 1, 0, 15, 1);
+        // 一个时间寄存器
         TimeSpan time;
 
         public void FetchTime(TimeSpan time)
@@ -25,8 +25,7 @@ namespace 贪吃蛇.Toolkit
 
         public void Draw()
         {
-            int startX = Game.mapWidth;
-            Console.SetCursorPosition(startX + 1, 0);
+            Console.SetCursorPosition(frame.x, 0);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("存活时间：");
             Console.Write((int)time.TotalSeconds + "秒");

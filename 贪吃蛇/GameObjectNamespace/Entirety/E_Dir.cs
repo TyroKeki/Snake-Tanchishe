@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 贪吃蛇.GameObjectSpace.Entirety
+namespace 贪吃蛇.GameObjectNamespace.Entirety
 {
     public enum E_Dir
     {

@@ -3,20 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 贪吃蛇.GameObjectSpace.Block;
+using 贪吃蛇.GameObjectNamespace.Block;
 using 贪吃蛇.Main;
 
-namespace 贪吃蛇.GameObjectSpace.World
+namespace 贪吃蛇.GameObjectNamespace.World.Map
 {
-    internal class PlainMap : BaseMap
+    internal class HardMazeMap : BaseMap
     {
-        //注意地图其实是有坐标属性的，但是我没想好怎么写，先存在世界地图的二维坐标里
-        public PlainMap()
-        {
-            map = CreateMap();
-        }
-
-        public override GameObject[,] CreateMap()
+        public override void CreateMap()
         {
             GameObject[,] grids;
             // col仅偶数位合法
@@ -40,7 +34,17 @@ namespace 贪吃蛇.GameObjectSpace.World
                 grids[0, row] = new Wall(0, row);
                 grids[Game.mapWidth - 2, row] = new Wall(Game.mapWidth - 2, row);
             }
-            return grids;
+            map = grids;
+
+            // 等待测试
+            for (int x = 4; x < grids.GetLength(0) - 4; x += 2)
+            {
+                for (int y = 2; y < grids.GetLength(1) - 2; y += 3)
+                {
+                    grids[x, y] = new Wall(x, y);
+                }
+            }
         }
     }
 }
+

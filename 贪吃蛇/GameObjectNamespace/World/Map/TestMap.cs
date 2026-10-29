@@ -3,21 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 贪吃蛇.GameObjectSpace.Block;
+using 贪吃蛇.GameObjectNamespace.Block;
 using 贪吃蛇.Main;
 
-namespace 贪吃蛇.GameObjectSpace.World
+namespace 贪吃蛇.GameObjectNamespace.World.Map
 {
     internal class TestMap : BaseMap
     {
-        public TestMap(int worldX,int worldY)
-        {
-            worldPos.x = worldX;
-            worldPos.y = worldY;
-            map = CreateMap();
-        }
 
-        public override GameObject[,] CreateMap()
+        public override void CreateMap()
         {
             GameObject[,] grids;
             // col仅偶数位合法
@@ -33,7 +27,7 @@ namespace 贪吃蛇.GameObjectSpace.World
                 grids[0, row] = new Wall(0, row);
                 grids[Game.mapWidth - 2, row] = new Wall(Game.mapWidth - 2, row);
             }
-            return grids;
+            map = grids;
         }
     }
 }

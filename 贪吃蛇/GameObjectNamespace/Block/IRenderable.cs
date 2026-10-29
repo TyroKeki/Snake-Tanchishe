@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 贪吃蛇.GameObjectSpace.Block
+namespace 贪吃蛇.GameObjectNamespace.Block
 {
     /// <summary>
     /// 渲染图层序，数值小的先画（在下面），大的后画（盖上面）。
@@ -27,7 +27,7 @@ namespace 贪吃蛇.GameObjectSpace.Block
     /// </summary>
     internal interface IRenderable
     {
-        Position Pos { get; }
+        Vector2 Pos { get; }
         RenderLayer Layer { get; }
         void GetRenderData(out char ch, out ConsoleColor color);  // 或者返回一个结构
     }
