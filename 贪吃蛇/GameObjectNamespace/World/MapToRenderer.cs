@@ -15,7 +15,7 @@ namespace 贪吃蛇.GameObjectNamespace.World
         /// </summary>
         public static void ToRenderer(GameObject[,] nowMap)
         {
-            for (int col = 0; col < nowMap.GetLength(0); col += 2)
+            for (int col = 0; col < nowMap.GetLength(0); col += 1)
             {
                 for (int row = 0; row < nowMap.GetLength(1); row += 1)
                 {

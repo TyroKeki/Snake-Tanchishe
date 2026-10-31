@@ -15,7 +15,7 @@ namespace 贪吃蛇.UI
         private ScoreUI() { }
 
         // 指定范围
-        private UIFrame frame = new UIFrame(Game.mapWidth + 1, 1, 14, 2);
+        private UIFrame frame = new UIFrame(Game.renderMapWidth + 1, 1, 14, 2);
         // 寄存坐标
         int score;
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using 贪吃蛇.GameObjectNamespace.Entirety;
 using 贪吃蛇.Main;
+using 贪吃蛇.Toolkit;
 
 namespace 贪吃蛇.GameObjectNamespace.World.WorldComponents
 {
@@ -20,9 +21,9 @@ namespace 贪吃蛇.GameObjectNamespace.World.WorldComponents
         {
             // 为什么会比边界多一圈，我的理解是要先move -> 越界 -> 更换地图启动 -> 传送蛇 -> 正确渲染
             // 否则move -> 合法 -> 更换地图启动 -> 传送蛇 -> 永远踩不到边界上
-            if (x == -2 || y == -1)
+            if (x == -1 || y == -1)
             {
-                if (x == -2)
+                if (x == -1)
                 {
                     nextDir = E_Dir.left;
                 }
@@ -33,9 +34,9 @@ namespace 贪吃蛇.GameObjectNamespace.World.WorldComponents
                 return true;
             }
             // 有点魔法数字，无伤大雅
-            if (x == Game.mapWidth || y == Game.mapHeight)
+            if (x == Game.LogicMapWidth || y == Game.LogicMapHeight)
             {
-                if (x == Game.mapWidth)
+                if (x == Game.LogicMapWidth)
                 {
                     nextDir = E_Dir.right;
                 }

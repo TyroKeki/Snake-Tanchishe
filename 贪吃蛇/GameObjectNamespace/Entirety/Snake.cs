@@ -40,7 +40,7 @@ namespace 贪吃蛇.GameObjectNamespace.Entirety
             Vector2 pos = head.pos;
             for (int i = 1; i <= n; i++)
             {
-                GetBody(pos.x + i * 2, pos.y);
+                GetBody(pos.x + i, pos.y);
             }
         }
 
@@ -80,10 +80,10 @@ namespace 贪吃蛇.GameObjectNamespace.Entirety
                     head.y++;
                     break;
                 case E_Dir.left:
-                    head.x -= 2;
+                    head.x --;
                     break;
                 case E_Dir.right:
-                    head.x += 2;
+                    head.x ++;
                     break;
                 default:
                     break;

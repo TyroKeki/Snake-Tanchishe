@@ -14,7 +14,7 @@ namespace 贪吃蛇.UI
     internal class TimeUI : BaseUI<TimeUI>,IDraw
     {
         // 大小指定
-        private UIFrame frame = new UIFrame(Game.mapWidth + 1, 0, 15, 1);
+        private UIFrame frame = new UIFrame(Game.renderMapWidth + 1, 0, 15, 1);
         // 一个时间寄存器
         TimeSpan time;
 

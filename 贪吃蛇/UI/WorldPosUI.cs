@@ -14,7 +14,7 @@ namespace 贪吃蛇.UI
         public static WorldPosUI Instance => instance;
         private WorldPosUI() { }
         // 指定范围
-        private UIFrame frame = new UIFrame(Game.mapWidth + 1, 2, 14, 2);
+        private UIFrame frame = new UIFrame(Game.renderMapWidth + 1, 2, 14, 2);
         // 寄存坐标
         int x, y;
         public void FetchWorldPos(int x,int y)

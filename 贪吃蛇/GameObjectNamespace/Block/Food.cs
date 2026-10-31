@@ -21,7 +21,7 @@ namespace 贪吃蛇.GameObjectNamespace.Block
         /// </summary>
         public override void Draw()
         {
-            Console.SetCursorPosition(pos.x, pos.y);
+            Console.SetCursorPosition(pos.x * 2, pos.y);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("🌽");
         }
@@ -37,8 +37,8 @@ namespace 贪吃蛇.GameObjectNamespace.Block
             Vector2 tmpPos;
             do
             {
-                int x = rand.Next(1, Game.mapWidth / 2 - 1) * 2;
-                int y = rand.Next(1, Game.mapHeight - 1);
+                int x = rand.Next(1, Game.LogicMapWidth - 1);
+                int y = rand.Next(1, Game.LogicMapHeight - 1);
                 tmpPos = new Vector2(x, y);
             } while (snake.CheckPositionOccupied(tmpPos));
 

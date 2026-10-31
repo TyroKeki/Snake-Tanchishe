@@ -32,7 +32,7 @@ namespace 贪吃蛇.Menu
         {
             worldMap = new WorldMap();
 
-            snake = new Snake(Game.mapWidth/2,Game.mapHeight/2);
+            snake = new Snake(Game.LogicMapWidth / 2,Game.LogicMapHeight / 2);
             food = new Food(snake);
             MapRenderer.Instance.ResetResolution();
             // 时间

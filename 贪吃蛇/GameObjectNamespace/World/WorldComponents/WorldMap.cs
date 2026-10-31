@@ -72,13 +72,13 @@ namespace 贪吃蛇.GameObjectNamespace.World.WorldComponents
                 switch (toward)
                 {
                     case E_Dir.up:
-                        headCopyPos.y = Game.mapHeight - 1;
+                        headCopyPos.y = Game.LogicMapHeight - 1;
                         break;
                     case E_Dir.down:
                         headCopyPos.y = 0;
                         break;
                     case E_Dir.left:
-                        headCopyPos.x = Game.mapWidth - 2;
+                        headCopyPos.x = Game.LogicMapWidth - 1;
                         break;
                     case E_Dir.right:
                         headCopyPos.x = 0;

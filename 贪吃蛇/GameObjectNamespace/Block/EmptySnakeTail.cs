@@ -16,7 +16,7 @@ namespace 贪吃蛇.GameObjectNamespace.Block
 
         public override void Draw()
         {
-            Console.SetCursorPosition(pos.x, pos.y);
+            Console.SetCursorPosition(pos.x * 2, pos.y);
             Console.Write("  ");
         }
     }

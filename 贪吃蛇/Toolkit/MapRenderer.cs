@@ -18,21 +18,21 @@ namespace 贪吃蛇.Toolkit
         /// </summary>
         public void ResetResolution()
         {
-            width = Game.mapWidth;
-            height = Game.mapHeight;
+            width = Game.LogicMapWidth;
+            height = Game.LogicMapHeight;
             screenPos = new GameObject[width, height];
         }
 
         public void Draw()
         {
-            for (int col = 0; col < screenPos.GetLength(0); col += 2)
+            for (int col = 0; col < screenPos.GetLength(0); col += 1)
             {
                 for (int row = 0; row < screenPos.GetLength(1); row += 1)
                 {
                     GameObject obj = screenPos[col, row];
                     if(obj == null)
                     {
-                        Console.SetCursorPosition(col, row);
+                        Console.SetCursorPosition(col * 2, row);
                         Console.Write("  ");
                         continue;
                     }

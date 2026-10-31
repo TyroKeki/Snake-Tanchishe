@@ -13,10 +13,13 @@ namespace 贪吃蛇.Main
 
     class Game
     {
+        // 逻辑地图宽高
+        public static int LogicMapWidth => renderMapWidth / 2;
+        public static int LogicMapHeight => renderMapHeight;
         // 游戏窗口宽高
-        public static int mapWidth;
-        public static int mapHeight;
-        // 新增的状态栏独立宽高
+        public static int renderMapWidth;
+        public static int renderMapHeight;
+        // 新增的状态栏后总体宽高
         public static int windowWidth;
         public static int windowHeight;
         // 当前选中的场景
@@ -42,8 +45,8 @@ namespace 贪吃蛇.Main
         // 使用参数实例化
         public Game(int w,int h)
         {
-            mapWidth = w;
-            mapHeight = h;
+            renderMapWidth = w;
+            renderMapHeight = h;
             windowWidth = w + 16;
             windowHeight = h;
             ConsoleInit();
