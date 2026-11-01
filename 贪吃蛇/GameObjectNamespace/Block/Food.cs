@@ -1,5 +1,7 @@
 ﻿using 贪吃蛇.GameObjectNamespace.Entirety;
+using 贪吃蛇.GameObjectNamespace.World.WorldComponents;
 using 贪吃蛇.Main;
+using 贪吃蛇.Menu;
 using 贪吃蛇.Toolkit;
 
 namespace 贪吃蛇.GameObjectNamespace.Block
@@ -8,7 +10,7 @@ namespace 贪吃蛇.GameObjectNamespace.Block
     {
         Snake snake;
         Random rand = new Random();
-
+        WorldMap worldMap = GameScene.WorldMap;
         public Food(Snake s)
         {
             snake = s;
@@ -35,14 +37,29 @@ namespace 贪吃蛇.GameObjectNamespace.Block
         public void RandomPos(Snake snake)
         {
             Vector2 tmpPos;
-            do
+            while (true)
             {
                 int x = rand.Next(1, Game.LogicMapWidth - 1);
                 int y = rand.Next(1, Game.LogicMapHeight - 1);
                 tmpPos = new Vector2(x, y);
-            } while (snake.CheckPositionOccupied(tmpPos));
+                if (snake.CheckPositionOccupied(tmpPos))
+                {
+                    continue;
+                }
+                GameObject nowBlock = worldMap.NowMap[x, y];
+                if(nowBlock is Wall)
+                {
+                    continue;
+                }
+                break;
+            }
 
             pos = tmpPos;
+        }
+
+        private void SnakeDetect()
+        {
+
         }
     }
 }

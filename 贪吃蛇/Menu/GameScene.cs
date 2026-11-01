@@ -17,8 +17,10 @@ namespace 贪吃蛇.Menu
 {
     class GameScene : ISceneUpdate
     {
-        // 这个是创建实例，用于持有当前地图指针并推送渲染
-        WorldMap worldMap;
+        // 太重要了，但是worldMap开单例模式又很怪，只能说逻辑保证worldMap不为空
+        public static WorldMap WorldMap => worldMap;
+        private static WorldMap worldMap = null;
+
         Snake snake;
         Food food;
         // 时间

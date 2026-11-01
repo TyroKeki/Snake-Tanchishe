@@ -33,5 +33,10 @@ namespace 贪吃蛇.GameObjectNamespace.World.WorldComponents
             // 这一步开始加载地图，否则是空的（已修改，没有上述问题）
             nowMap = layout.Chunks[pos.x, pos.y].Map;
         }
+
+        public GameObject CheckThisBlock(int x, int y)
+        {
+            return nowMap[x, y];
+        }
     }
 }

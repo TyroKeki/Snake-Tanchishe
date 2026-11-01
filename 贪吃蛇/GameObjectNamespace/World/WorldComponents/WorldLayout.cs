@@ -45,7 +45,10 @@ namespace 贪吃蛇.GameObjectNamespace.World.WorldComponents
         public void Start()
         {
             TilePlainMap();
-            ChangeMapTile<HardMazeMap>(2, 1);
+            ChangeMapTile<DFSMap>(2, 1);
+            ChangeMapTile<DFSMap>(1, 2);
+            ChangeMapTile<DFSMap>(3, 2);
+            ChangeMapTile<DFSMap>(2, 3);
         }
 
         public void Update()

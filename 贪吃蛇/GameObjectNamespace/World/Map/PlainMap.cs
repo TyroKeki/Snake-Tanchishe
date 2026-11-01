@@ -16,7 +16,6 @@ namespace 贪吃蛇.GameObjectNamespace.World.Map
         public override void CreateMap()
         {
             GameObject[,] grids;
-            // col仅偶数位合法
             grids = new GameObject[Game.LogicMapWidth, Game.LogicMapHeight];
             for (int col = 0; col < grids.GetLength(0); col += 1)
             {
