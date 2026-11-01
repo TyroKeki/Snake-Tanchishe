@@ -103,7 +103,14 @@ namespace 贪吃蛇.GameObjectNamespace.World.Directors
                     RandomPos(snake);
                     break;
                 case E_FoodRule.MuchFood:
-                    MuchGenerate(10);
+                    if(foods.Count == 0)
+                    {
+                        MuchGenerate(10);
+                    }
+                    else
+                    {
+                        RandomPos(snake);
+                    }
                     break;
                 case E_FoodRule.NoFood:
                     break;

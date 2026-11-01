@@ -1,6 +1,4 @@
-﻿using 贪吃蛇.Main;
-
-namespace 贪吃蛇
+﻿namespace 贪吃蛇.Main
 {
     internal class Program
     {
