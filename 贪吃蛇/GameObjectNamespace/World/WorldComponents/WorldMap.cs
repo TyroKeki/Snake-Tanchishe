@@ -33,6 +33,32 @@ namespace 贪吃蛇.GameObjectNamespace.World.WorldComponents
             state.SetMap(layout);
         }
 
+        public void CheckEnterNewMap(Snake snake)
+        {
+            if (BoundaryDetector.isAtCornor(snake.NowPos.x, snake.NowPos.y, out E_Dir? toward))
+            {
+                switch (toward)
+                {
+                    case E_Dir.up:
+                        state.SetPosition(state.X, state.Y - 1);
+                        break;
+                    case E_Dir.down:
+                        state.SetPosition(state.X, state.Y + 1);
+                        break;
+                    case E_Dir.left:
+                        state.SetPosition(state.X - 1, state.Y);
+                        break;
+                    case E_Dir.right:
+                        state.SetPosition(state.X + 1, state.Y);
+                        break;
+                    default:
+                        throw new InvalidOperationException(
+                            $"似乎E_Dir没有赋值");
+                }
+                EnterNewMap(snake);
+            }
+        }
+
         /// <summary>
         /// 这个是初版的边界传送方法，不确定会不会改
         /// </summary>
@@ -65,31 +91,6 @@ namespace 贪吃蛇.GameObjectNamespace.World.WorldComponents
             }
         }
 
-        public void CheckEnterNewMap(Snake snake)
-        {
-            if (BoundaryDetector.isAtCornor(snake.NowPos.x, snake.NowPos.y, out E_Dir? toward))
-            {
-                switch (toward)
-                {
-                    case E_Dir.up:
-                        state.SetPosition(state.X, state.Y - 1);
-                        break;
-                    case E_Dir.down:
-                        state.SetPosition(state.X, state.Y + 1);
-                        break;
-                    case E_Dir.left:
-                        state.SetPosition(state.X - 1, state.Y);
-                        break;
-                    case E_Dir.right:
-                        state.SetPosition(state.X + 1, state.Y);
-                        break;
-                    default:
-                        throw new InvalidOperationException(
-                            $"似乎E_Dir没有赋值");
-                }
-                EnterNewMap(snake);
-            }
-        }
 
         /// <summary>
         /// 蛇身碰撞和地图碰撞失败检测耦合，暂不打算修改

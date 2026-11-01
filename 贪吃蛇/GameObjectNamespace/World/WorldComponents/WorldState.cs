@@ -17,10 +17,13 @@ namespace 贪吃蛇.GameObjectNamespace.World.WorldComponents
         public int X => pos.x;
         public int Y => pos.y;
         public Vector2 Pos => pos;
+        // 拿到蛇的信息
+        Snake snake;
 
         public WorldState(int x, int y)
         {
             pos = new Vector2(x, y);
+            this.snake = snake;
         }
 
         public void SetPosition(int x, int y)

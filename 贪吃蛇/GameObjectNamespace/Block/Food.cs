@@ -8,13 +8,12 @@ namespace 贪吃蛇.GameObjectNamespace.Block
 {
     internal class Food : GameObject
     {
-        Snake snake;
         Random rand = new Random();
-        WorldMap worldMap = GameScene.WorldMap;
-        public Food(Snake s)
+
+
+        public Food(int x, int y)
         {
-            snake = s;
-            RandomPos(snake);
+            pos.x = x; pos.y = y;
         }
 
         /// <summary>
@@ -28,38 +27,5 @@ namespace 贪吃蛇.GameObjectNamespace.Block
             Console.Write("🌽");
         }
 
-        public void ToRenderer()
-        {
-            MapRenderer.Instance.PassInfo(this, pos.x, pos.y);
-        }
-        // 随机位置的行为 行为和蛇相关 不好写
-
-        public void RandomPos(Snake snake)
-        {
-            Vector2 tmpPos;
-            while (true)
-            {
-                int x = rand.Next(1, Game.LogicMapWidth - 1);
-                int y = rand.Next(1, Game.LogicMapHeight - 1);
-                tmpPos = new Vector2(x, y);
-                if (snake.CheckPositionOccupied(tmpPos))
-                {
-                    continue;
-                }
-                GameObject nowBlock = worldMap.NowMap[x, y];
-                if(nowBlock is Wall)
-                {
-                    continue;
-                }
-                break;
-            }
-
-            pos = tmpPos;
-        }
-
-        private void SnakeDetect()
-        {
-
-        }
     }
 }

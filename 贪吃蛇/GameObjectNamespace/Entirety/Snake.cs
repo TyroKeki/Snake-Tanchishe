@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using 贪吃蛇.Data;
 using 贪吃蛇.GameObjectNamespace.Block;
 using 贪吃蛇.GameObjectNamespace.World;
+using 贪吃蛇.GameObjectNamespace.World.Directors;
 using 贪吃蛇.Main;
 using 贪吃蛇.Toolkit;
 
@@ -118,28 +119,16 @@ namespace 贪吃蛇.GameObjectNamespace.Entirety
             }
         }
 
-        public bool CheckPositionOccupied(Vector2 p)
+        public void CheckEatFood(FoodDirector foodDrct, PlayerData playerData)
         {
-            for(int i = 0;i< bodies.Count; i++)
+            if (foodDrct.CheckFood(bodies[0].Pos))
             {
-                if(bodies[i].Pos == p)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void CheckEatFood(Food food, PlayerData playerData)
-        {
-            if (bodies[0].Pos == food.pos)
-            {
-                food.RandomPos(this);
+                foodDrct.RemoveFood(bodies[0].Pos.x, bodies[0].Pos.y);
+                foodDrct.Generate();
                 GetBody(bodies[bodies.Count - 1].Pos.x, bodies[bodies.Count - 1].Pos.y);
                 playerData.AddScore(1);
             }
         }
-
 
         public void TeleportHeadTo(int x,int y)
         {
@@ -155,5 +144,16 @@ namespace 贪吃蛇.GameObjectNamespace.Entirety
             }
         }
 
+        public bool CheckPositionOccupied(Vector2 p)
+        {
+            for (int i = 0; i < bodies.Count; i++)
+            {
+                if (bodies[i].Pos == p)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

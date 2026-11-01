@@ -8,6 +8,7 @@ using 贪吃蛇.Data;
 using 贪吃蛇.GameObjectNamespace.Block;
 using 贪吃蛇.GameObjectNamespace.Entirety;
 using 贪吃蛇.GameObjectNamespace.World;
+using 贪吃蛇.GameObjectNamespace.World.Directors;
 using 贪吃蛇.GameObjectNamespace.World.WorldComponents;
 using 贪吃蛇.Main;
 using 贪吃蛇.Toolkit;
@@ -17,12 +18,12 @@ namespace 贪吃蛇.Menu
 {
     class GameScene : ISceneUpdate
     {
-        // 太重要了，但是worldMap开单例模式又很怪，只能说逻辑保证worldMap不为空
-        public static WorldMap WorldMap => worldMap;
-        private static WorldMap worldMap = null;
+        WorldMap worldMap = new WorldMap();
+        // 要snake信息，很烦
+        public Snake snake = new Snake(Game.LogicMapWidth / 2, Game.LogicMapHeight / 2);
+        private FoodDirector foodDrct = null;
 
-        Snake snake;
-        Food food;
+
         // 时间
         Stopwatch roundTime = Stopwatch.StartNew();
         long nowTime;
@@ -32,10 +33,8 @@ namespace 贪吃蛇.Menu
 
         public GameScene()
         {
-            worldMap = new WorldMap();
 
-            snake = new Snake(Game.LogicMapWidth / 2,Game.LogicMapHeight / 2);
-            food = new Food(snake);
+            foodDrct = new FoodDirector(snake, worldMap);
             MapRenderer.Instance.ResetResolution();
             // 时间
             nowTime = roundTime.ElapsedMilliseconds;
@@ -47,7 +46,7 @@ namespace 贪吃蛇.Menu
         private void LogicUpdate()
         {
             snake.Move();
-            snake.CheckEatFood(food, playerData);
+            snake.CheckEatFood(foodDrct, playerData);
 
             if (worldMap.CheckIsEnd(worldMap.NowMap, snake))
             {
@@ -61,7 +60,7 @@ namespace 贪吃蛇.Menu
         {
             MapToRenderer.ToRenderer(worldMap.NowMap);
             snake.ToRenderer();
-            food.ToRenderer();
+            foodDrct.ToRenderer();
 
             TimeUI.Instance.FetchTime(roundTime.Elapsed);
             WorldPosUI.Instance.FetchWorldPos(worldMap.WorldX, worldMap.WorldY);
